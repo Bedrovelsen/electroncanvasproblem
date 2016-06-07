@@ -1,3 +1,4 @@
+"use strict"
 const electron = require('electron')
 
 const app = electron.app
@@ -6,6 +7,10 @@ const BrowserWindow = electron.BrowserWindow
 
 
 let mainWindow
+
+let Window1
+let Window2
+
 
 function createWindow1 () {
 
@@ -36,7 +41,7 @@ function createWindow2 () {
 
   Window2.on('closed', function () {
 
-    Window1 = null
+    Window2 = null
   })
 }
 
@@ -44,6 +49,11 @@ function createWindows(){
   createWindow1();
   createWindow2();
 }
+
+const ipcMain = require('electron').ipcMain
+ipcMain.on("copy_to_window2", function (event, args) {
+    Window2.webContents.send("copy_context", args[0]);
+});
 
 app.on('ready', createWindows)
 

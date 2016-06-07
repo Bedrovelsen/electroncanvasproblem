@@ -1,9 +1,11 @@
+"use strict"
 var canvas = document.getElementById('source');
 var context = canvas.getContext('2d');
 var dx= 4;
 var dy=4;
 var y=150;
 var x=10;
+const ipcRenderer = require('electron').ipcRenderer;
 function draw(){
 
 	context.clearRect(0,0,300,300);
@@ -18,6 +20,7 @@ function draw(){
 		dy=-dy;
 		x+=dx;
 		y+=dy;
+    ipcRenderer.send('copy_to_window2', context); // to be null
     window.requestAnimationFrame(draw)
 	}
 draw();
